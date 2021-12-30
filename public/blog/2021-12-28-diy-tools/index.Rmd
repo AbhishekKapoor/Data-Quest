@@ -1,0 +1,24 @@
+---
+title: DIY tools
+author: Abhishek Kapoor
+date: '2021-12-28'
+slug: []
+categories:
+  - R
+tags:
+  - Shiny
+  - R
+  - Correspondence analysis
+  - Classfication tool
+draft: yes
+meta_img: images/image.png
+description: Description for the page
+---
+
+## Some Useful Shinny Apps
+
+*  **Correspondence analysis** -  As I market researcher, we have to deal with brand perception data frequently. And one of the way of analyzing this data is through “correspondence map” (perceptual maps) and mostly researcher are doing this analysis on SPSS which is tedious task as data has to be arranged in particular format. So here is the shinny app where user can upload the data (in csv format where brands are column and in rows imagery statements- Basically it is brand association data for various imagery statements) [Correspondence analysis App](https://kapoorabhishek.shinyapps.io/PerceptualMap/) 
+
+*  **Factor Analysis** -  One of the data reduction technique used to used variables into more manageable and more understandable. It’s a way to find hidden patterns  [Factor Analysis App](https://kapoorabhishek.shinyapps.io/Factoranalysis/)
+
+*  **Classfication tool** -  For using this app please make sure for both test data and train data - 1st column is the unique id and 2nd column is Y (dependent variable)  [Classfication tool](https://juxtsmartmandate.shinyapps.io/ClassificationR/)
