@@ -1,4 +1,4 @@
-baseurl: https://example.com
+baseurl: https://dataquest.netlify.app/
 title: Data Quest
 author: Abhishek Kapoor
 canonifyurls: yes
