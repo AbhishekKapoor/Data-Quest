@@ -1,0 +1,153 @@
+---
+title: Pandemic,Hot Indian Summers, Web scraping and Refrigerators
+author: Abhishek Kapoor
+date: '2021-12-30'
+slug: []
+categories:
+  - R
+tags:
+  - R
+  - python
+  - web scraping
+draft: yes
+meta_img: images/image.png
+description: Description for the page
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+<script src="{{< blogdown/postref >}}index_files/htmlwidgets/htmlwidgets.js"></script>
+<link href="{{< blogdown/postref >}}index_files/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+<script src="{{< blogdown/postref >}}index_files/datatables-binding/datatables.js"></script>
+<script src="{{< blogdown/postref >}}index_files/jquery/jquery-3.6.0.min.js"></script>
+<link href="{{< blogdown/postref >}}index_files/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="{{< blogdown/postref >}}index_files/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="{{< blogdown/postref >}}index_files/dt-core/js/jquery.dataTables.min.js"></script>
+<link href="{{< blogdown/postref >}}index_files/crosstalk/css/crosstalk.min.css" rel="stylesheet" />
+<script src="{{< blogdown/postref >}}index_files/crosstalk/js/crosstalk.min.js"></script>
+
+
+<div id="summers-and-pandemic" class="section level2">
+<h2>Summers and Pandemic</h2>
+<p>Just imagine - Hot Indian summers was about to start and due to <strong>Pandemic</strong> there was lockdown in the city- no free movement and mostly all retail business were closed and your wife broke this news that your 10 year old Refrigerator had stopped working - very gripping situation which one would not like to be in.</p>
+<p>Now the tough decision is to get it repair or buy a new Refrigerator - why tough because due to slowdown &amp; pandemic there was salary cut;now anyone can imagine my tough situation. But finally tough decision was taken <strong>jointly</strong> <span style="color:blue">(By WIFE ONLY)</span> that we have to buy a new Refrigerator..</p>
+<p>By now, it was clear to me that I have to really make very smart &amp; informed decision- so decided to test my newly learned skill - <strong>WEB SCRAPING</strong> using python.</p>
+<p>So I scraped price of all Refrigerators listed on <a href="https://www.amazon.in/s?k=refrigerator&amp;page=2&amp;crid=2NVRSHWTNK9YP&amp;qid=1626916933&amp;sprefix=ref%2Caps%2C373&amp;ref=sr_pg_2">Amazon</a></p>
+<p>So here is the glimpse of the data which was scraped from Amazon<br />
+<br>
+<br></p>
+<pre><code>## # A tibble: 536 x 14
+##       sn   MRP discription    offer_price Rating1     Brand Type  litres Capcity
+##    &lt;int&gt; &lt;int&gt; &lt;chr&gt;                &lt;int&gt; &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;  
+##  1     1 69999 AmazonBasics ~       38999 &quot;4.1 out o~ Amaz~ Fros~    468 More t~
+##  2     2 18400 Haier 195 L 4~       13440 &quot;\n\n\n\n\~ Haier Dire~    195 121L t~
+##  3     3 14990 Samsung 192 L~       12290 &quot;\n\n\n\n\~ Sams~ Dire~    192 121L t~
+##  4     4    NA Whirlpool 190~          NA &quot;\n\n\n\n\~ Whir~ Dire~    190 121L t~
+##  5     5 11500 Haier 53 L 2 ~        8900 &quot;\n\n\n\n\~ Haier Dire~     53 Less t~
+##  6     6 28250 Whirlpool 265~       24990 &quot;\n\n\n\n\~ Whir~ Fros~    265 231L t~
+##  7     7 28990 Samsung 253 L~       23090 &quot;\n\n\n\n\~ Sams~ Fros~    253 231L t~
+##  8     8 18990 Samsung 230 L~       15890 &quot;\n\n\n\n\~ Sams~ Dire~    230 201L t~
+##  9     9 30690 LG 260 L 3 St~       25290 &quot;\n\n\n\n\~ LG    Fros~    260 231L t~
+## 10    10 20990 Samsung 198 L~       17790 &quot;\n\n\n\n\~ Sams~ Dire~    198 121L t~
+## # ... with 526 more rows, and 5 more variables: Star_Rating &lt;chr&gt;,
+## #   Technology &lt;chr&gt;, Doors &lt;chr&gt;, final_rating &lt;dbl&gt;, views &lt;int&gt;</code></pre>
+<p><br>
+In total 536 SKUs were scraped but found some retailer has wrongly latched their products (like Refrigerator mat, cover) to this category - <strong>Amazon</strong> need to take care of this. This data definitely required some cleaning but before that, I thought to look SKU listed for each Brand.</p>
+<p>For each SKU we have MRP (INR), offer price, rating and its small description from which we can drive Brand name, Capacity in Litres, type of technology (Direct cool vs Frost free), Number of doors,Star rating, etc</p>
+<p><br>
+<br></p>
+<pre class="r"><code>data %&gt;% drop_na(Brand) %&gt;% filter (Brand !=&quot;&quot;| Brand !=&quot;NA&quot;)  %&gt;% group_by(Brand) %&gt;% tally() %&gt;% arrange(desc(n)) </code></pre>
+<pre><code>## # A tibble: 20 x 2
+##    Brand              n
+##    &lt;chr&gt;          &lt;int&gt;
+##  1 &quot;Samsung&quot;        129
+##  2 &quot;LG&quot;             116
+##  3 &quot;Whirlpool&quot;       93
+##  4 &quot;Haier&quot;           64
+##  5 &quot;Godrej&quot;          55
+##  6 &quot;Panasonic &quot;      20
+##  7 &quot;Voltas&quot;          11
+##  8 &quot;LEONARD&quot;          7
+##  9 &quot;Bosch&quot;            5
+## 10 &quot;Blue Star&quot;        4
+## 11 &quot;Rockwell&quot;         4
+## 12 &quot;Gem&quot;              2
+## 13 &quot;Onida &quot;           2
+## 14 &quot;AmazonBasics&quot;     1
+## 15 &quot;Hisense&quot;          1
+## 16 &quot;Koryo&quot;            1
+## 17 &quot;Llody &quot;           1
+## 18 &quot;LLOYD&quot;            1
+## 19 &quot;Siemens&quot;          1
+## 20 &quot;Videocon&quot;         1</code></pre>
+<p><br></p>
+<p>Some key observation:</p>
+<ul>
+<li><p>As expected, the top 3 brands listed on the Amazon were Samsung (25%), LG (22%) and Whirlpool (17%)</p></li>
+<li><p>Interestingly, <strong>Haier</strong> had good presence online also (account 12%)</p></li>
+<li><p>However, some old Indian player, like <strong>Godrej &amp; Voltas</strong>, either this sales channel is not that important or they really have very few SKUs in their product portfolio. Anyways these 2 brands were not part of my consideration set - as their Brand salience is not that great (Haven’t seen their any ad - TVS/Print/even digital off late).</p></li>
+</ul>
+<p><br></p>
+</div>
+<div id="now-question-is-between-direct-cool-vs-frost-free" class="section level2">
+<h2>Now Question is between Direct Cool vs Frost Free</h2>
+<div id="htmlwidget-1" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6"],["Direct Cool","Freezer","Frost Free","Mini Freeze","Water Dispenser","Total"],[57,0,72,0,0,129],[50,1,64,1,0,116],[48,0,45,0,0,93],[32,0,32,0,0,64],[39,1,15,0,0,55],[4,0,16,0,0,20],[3,3,5,0,0,11],[0,0,0,5,2,7]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Type<\/th>\n      <th>Samsung<\/th>\n      <th>LG<\/th>\n      <th>Whirlpool<\/th>\n      <th>Haier<\/th>\n      <th>Godrej<\/th>\n      <th>Panasonic <\/th>\n      <th>Voltas<\/th>\n      <th>LEONARD<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8,9]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>Both Brands- Samsung &amp; LG had slightly more number of Frost Free SKUs whereas Whirlpool has slightly more Direct cool refrigerator listed on Amazon.</p>
+<p>One of the inputs I got from my <em>Home ministry</em> that this time we should buy a <strong>premium refrigerator</strong>. So decided to look for SKUs which are at 80 percentile</p>
+<p>So it is important to know what price represent 80 percentile and which is :-</p>
+<pre><code>##   80% 
+## 34518</code></pre>
+<p><br></p>
+<p>But it make more sense to know 80 percentile by type of refrigerator. So let look 1st at the <strong>Direct cool refrigerators</strong></p>
+<pre><code>##     80% 
+## 18493.6</code></pre>
+<p>Now by <strong>Frost free refrigerators</strong></p>
+<pre><code>##   80% 
+## 49426</code></pre>
+<p>Now let us see what all options are available for both type if I want to buy <strong>premium</strong> refrigerator</p>
+<div id="direct-cool" class="section level3">
+<h3>Direct Cool</h3>
+<pre class="r"><code>data %&gt;% drop_na(Brand) %&gt;% filter (Brand !=&quot;&quot;| Brand !=&quot;NA&quot;)  %&gt;% drop_na(offer_price)%&gt;% filter (offer_price !=&quot;&quot;| offer_price !=&quot;NA&quot;)%&gt;% filter (Type==&quot;Direct Cool&quot;) %&gt;% filter (offer_price &gt; 18500) %&gt;% group_by(Brand) %&gt;% tally() %&gt;% arrange(desc(n)) </code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   Brand         n
+##   &lt;chr&gt;     &lt;int&gt;
+## 1 LG           12
+## 2 Samsung      11
+## 3 Whirlpool     5
+## 4 Haier         2
+## 5 Godrej        1</code></pre>
+<p><br></p>
+<p>Very interesting - for the premium range SKUs in Direct cool refrigerator Samsung accounts for the ~40% of the SKUs</p>
+</div>
+<div id="frost-free" class="section level3">
+<h3>Frost Free</h3>
+<pre class="r"><code>data %&gt;% drop_na(Brand) %&gt;% filter (Brand !=&quot;&quot;| Brand !=&quot;NA&quot;)  %&gt;% drop_na(offer_price)%&gt;% filter (offer_price !=&quot;&quot;| offer_price !=&quot;NA&quot;)%&gt;% filter (Type==&quot;Frost Free&quot;) %&gt;% filter (offer_price &gt; 49000) %&gt;% group_by(Brand) %&gt;% tally() %&gt;% arrange(desc(n)) </code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   Brand            n
+##   &lt;chr&gt;        &lt;int&gt;
+## 1 &quot;LG&quot;            17
+## 2 &quot;Samsung&quot;       15
+## 3 &quot;Haier&quot;          4
+## 4 &quot;Panasonic &quot;     4
+## 5 &quot;Bosch&quot;          3
+## 6 &quot;Siemens&quot;        1</code></pre>
+<p><br>
+43 SKUs - mostly LG and Samsung…..<span style="color:red"><em>Whirlpool is missing</em></span></p>
+<p>But when I looked all these SKUs - I found that many of these were side by side refrigerator - which is diffcult to adjust in metro’s Flats , as they have space constraint - I was clear that we have to buy either 2 door or 3 door refrigerator but not side by side.</p>
+<p>So now I have to filter these shortlisted SKUs bases which are not <em>side by side</em>.</p>
+<pre class="r"><code>library(DT)
+d1&lt;- data %&gt;% drop_na(Brand) %&gt;% filter (Brand !=&quot;&quot;| Brand !=&quot;NA&quot;)  %&gt;% drop_na(offer_price)%&gt;% filter (offer_price !=&quot;&quot;| offer_price !=&quot;NA&quot;)%&gt;% filter (Type==&quot;Frost Free&quot;) %&gt;% filter (offer_price &gt; 49500) %&gt;% select(&quot;sn&quot;,&quot;MRP&quot;,&quot;discription&quot;,&quot;offer_price&quot;,&quot;litres&quot;,&quot;Technology&quot;,&quot;Doors&quot;,&quot;final_rating&quot;,&quot;views&quot;)%&gt;% filter (Doors != &quot;Side by Side&quot;) 
+datatable(d1)</code></pre>
+<div id="htmlwidget-2" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],[77,102,163,184,204,222,256,266,273,274,277,321,329,364,415],[89000,73000,79500,87990,69090,112000,63990,105000,59200,76990,72990,67690,67750,71890,73190],["Samsung 670 L 2 Star ( 2019 ) Frost Free Double Door Refrigerator(RT65K7058BS/TL, Black inox, Convertible, Inverter Compressor)","Samsung 523 L 2 Star ( 2019 ) Frost Free Double Door Refrigerator(RT54K6558SL/TL, Silver)","Bosch 559 L 2 Star Inverter Frost Free Double Door Refrigerator (Series 6 KGN56LB41I, Black, Bottom Freezer)","LG 630 L 3 Star Inverter Frost-Free Double Door Refrigerator (GR-H812HLHQ, Shiny Steel)","LG 471 L 2 Star LG ThinQ(Wi-Fi) Inverter Linear Frost-Free Double-Door Refrigerator (GL-T502FPZU, Shiny Steel, Convertible)","Panasonic Econavi 601 L 6-Stage Inverter Frost-Free Multi-Door Refrigerator (NR-DZ600GKXZ, Black Glass, Powered by Artificial Intelligence)","Samsung 407 L 3 Star Inverter Frost-Free Double Door Refrigerator (RT42T5C5EDX/TL, Luxe Brown)","Panasonic Econavi 551 L 6-Stage Inverter Frost-Free Multi-Door Refrigerator (NR-CY550GKXZ, Black Glass, Powered by Artificial Intelligence)","Samsung 415 L 3 Star Frost Free Double Door Refrigerator(RT42M553ESL/TL, Real Stainless, Convertible, Inverter Compressor)","Samsung 551 L 2 Star Inverter Frost-Free Double Door Refrigerator (RT56T6378BS/TL, Black Inox)","LG 471 L 3 Star LG ThinQ(Wi-Fi) Inverter Linear Frost-Free Double-Door Refrigerator (GL-T502FASN, Amber Steel, Convertible)","LG 437 L 3 Star LG ThinQ(Wi-Fi) Inverter Linear Frost-Free Double-Door Refrigerator (GL-T432FASN, Amber Steel, Convertible)","Samsung 478 L 2 Star (2019) Frost Free Double Door Refrigerator(RT49K6338BS/TL, Black inox, Convertible, Inverter Compressor)","LG 471 L 2 Star Inverter Linear Frost-Free Double Door Refrigerator (GL-T502FRS2, Russet Sheen, Wi-Fi | Convertible)","LG 471 L 3 Star Inverter Frost-Free Double Door Refrigerator (GL-T502FES3, Ebony Sheen)"],[67900,57390,65890,72580,56900,88980,49690,88000,53999,65490,60656,55041,53800,60335,58320],[670,523,559,630,471,601,407,551,415,551,471,437,478,471,471],["Inverter Technology","","Inverter Technology","Inverter Technology","Inverter Technology","Inverter Technology","Inverter Technology","Inverter Technology","Inverter Technology","Inverter Technology","Inverter Technology","Inverter Technology","Inverter Technology","Inverter Technology","Inverter Technology"],["Double Door","Double Door","Double Door","Double Door","Double Door","","Double Door","Double Door","Double Door","Double Door","Double Door","Double Door","Double Door","Double Door","Double Door"],[3.8,4,4.3,5,3.9,4.5,null,4.7,3.3,3.6,4.3,4.2,3.6,5,5],[20,27,26,1,18,8,null,8,10,4,41,50,21,1,2]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>sn<\/th>\n      <th>MRP<\/th>\n      <th>discription<\/th>\n      <th>offer_price<\/th>\n      <th>litres<\/th>\n      <th>Technology<\/th>\n      <th>Doors<\/th>\n      <th>final_rating<\/th>\n      <th>views<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,4,5,8,9]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>Now these 15 SKUs- I short listed 3 SKUs 1 Samsung SKU and 2 LG SKUs</p>
+<ul>
+<li>“Samsung 523 L 2 Star ( 2019 ) Frost Free Double Door Refrigerator(RT54K6558SL/TL, Silver)” with 4 rating at offer price 57390 and of capcity 523 litres</li>
+<li>“LG 471 L 3 Star LG ThinQ(Wi-Fi) Inverter Linear Frost-Free Double-Door Refrigerator (GL-T502FASN, Amber Steel, Convertible)” with 4.3 rating at offer price 60656 and of capcity 471 litres</li>
+<li>“LG 437 L 3 Star LG ThinQ(Wi-Fi) Inverter Linear Frost-Free Double-Door Refrigerator (GL-T432FASN, Amber Steel, Convertible)” with 4.1 rating at offer price 55041 and of capcity 437 litres</li>
+</ul>
+<p>When I showed all 3 refrigerators to my wife - the 1st thing she asked about the <span style="color:red"><em>reviews, online reviews</em></span> reviews–&gt; How consumers have reacted.</p>
+<p>So I decided to download the all the reviews of these 3 SKUs and then tried to take more informed decision (which I will cover in my next blog.)</p>
+<p>Any one who want to play with this data can download from here <a href="https://github.com/AbhishekKapoor/Open-Data/blob/3eea3bf825fcba910955d4b59a0ff90206c5239b/Refrigerators%20SKUs%20details%20with%20price%20listed%20on%20Amazon.csv">Data</a></p>
+</div>
+</div>
