@@ -1,6 +1,6 @@
 baseurl: https://dataquest.netlify.app/
-title: Hugo Tanka Theme Demo
-author: Nan Xiao
+title: Data Quest
+author: Abhishek Kapoor
 canonifyurls: yes
 languagecode: en
 theme: hugo-tanka
@@ -22,7 +22,7 @@ params:
     - python
     - stan
   progressively: no
-  sitename: Hugo Tanka Theme
+  sitename: DATA QUEST
   uselatex: yes
 markup:
   goldmark:
@@ -37,8 +37,9 @@ menu:
       url: /about/
       weight: 2
     - name: GitHub
-      url: https://github.com/nanxstats
+      url: https://github.com/AbhishekKapoor
       weight: 3
     - name: Twitter
-      url: https://twitter.com/nanxstats
+      url: https://twitter.com/kapoorabhishek
       weight: 4
+
